@@ -17,6 +17,31 @@ pub fn binary_search<T: PartialOrd>(list: &[T], x: T) -> bool {
     return false
 }
 
+pub fn min<T: PartialOrd>(list: &[T]) -> usize {
+    let mut smallest = &list[0];
+    let mut smallest_index = 0;
+
+    for i in 1..list.len() {
+        if smallest > &list[i] {
+            smallest = &list[i];
+            smallest_index = i;
+        }
+    }
+    
+    smallest_index
+}
+
+pub fn selection_sort<T: PartialOrd + Copy>(list: &mut [T]) {
+    for i in 0..list.len() {
+        let min_index = i + min(&list[i..]);
+        if i != min_index {
+            let temp = list[i];
+            list[i] = list[min_index];
+            list[min_index] = temp;
+        }
+    }
+} 
+
 
 #[cfg(test)]
 mod tests {
@@ -29,5 +54,21 @@ mod tests {
         assert_eq!(::binary_search(&b[..], 6), false);
         let c = vec![1, 5, 7, 8];
         assert_eq!(::binary_search(&c[..], 7), true);
+    }
+
+    #[test]
+    fn min_test() {
+        let a = [6, 1, -5, 7];
+        assert_eq!(::min(&a[..]), 2);
+    }
+
+    #[test]
+    fn selection_sort_test() {
+        let mut a = [6, 1, -5, 7];
+        ::selection_sort(&mut a[..]);
+        assert_eq!(&a[..], [-5, 1, 6, 7]);
+        let mut b = ["ssas", "asasa", "dsds"];
+        ::selection_sort(&mut b[..]);
+        assert_eq!(&b[..], ["asasa", "dsds", "ssas"]);
     }
 }
