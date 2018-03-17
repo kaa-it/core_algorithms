@@ -1,0 +1,6 @@
+[package]
+name = "algorithms"
+version = "0.1.0"
+authors = ["Andrey Kruglov <kruglov.it@gmail.com>"]
+
+[dependencies]
